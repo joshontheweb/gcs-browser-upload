@@ -26,6 +26,7 @@ export default class Upload {
       storage: window.localStorage,
       contentType: 'text/plain',
       onChunkUpload: () => {},
+      onProgress: () => {},
       id: null,
       url: null,
       file: null,
@@ -94,7 +95,17 @@ export default class Upload {
       debug(` - Start: ${start}`)
       debug(` - End: ${end}`)
 
-      const res = await safePut(opts.url, chunk, { headers })
+      const res = await safePut(opts.url, chunk, {
+        headers, onUploadProgress: function (progressEvent) {
+          opts.onProgress({
+            totalBytes: total,
+            uploadedBytes: start + progressEvent.loaded,
+            chunkIndex: index,
+            chunkLength: chunk.byteLength
+          })
+        }
+      })
+
       checkResponseStatus(res, opts, [200, 201, 308])
       debug(`Chunk upload succeeded, adding checksum ${checksum}`)
       meta.addChecksum(index, checksum)
