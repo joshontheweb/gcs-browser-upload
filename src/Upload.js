@@ -196,10 +196,10 @@ async function safePut () {
   try {
     return await put.apply(null, arguments)
   } catch (e) {
-    if (e instanceof Error) {
+    if (e instanceof Error && !e.response) {
       throw e
     } else {
-      return e
+      return e.response
     }
   }
 }
