@@ -6,7 +6,7 @@
   "scripts": {
     "test": "make test",
     "compile": "make compile",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile",
     "prepare": "npm install"
   },
   "repository": {
