@@ -6,7 +6,8 @@
   "scripts": {
     "test": "make test",
     "compile": "make compile",
-    "prepublishOnly": "npm run compile"
+    "prepublishOnly": "npm run compile",
+    "postInstall": "npm install"
   },
   "repository": {
     "type": "git",
