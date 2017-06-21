@@ -7,7 +7,7 @@
     "test": "make test",
     "compile": "make compile",
     "prepublishOnly": "npm run compile",
-    "postinstall": "npm install"
+    "postinstall": "npm install --ignore-scripts"
   },
   "repository": {
     "type": "git",
