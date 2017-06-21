@@ -55,7 +55,7 @@
   "files": [
     "dist",
     "README.md",
-    "MakeFile"
+    "Makefile"
   ],
   "standard": {
     "parser": "babel-eslint",
