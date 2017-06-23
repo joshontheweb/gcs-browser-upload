@@ -14,12 +14,26 @@ router.use(bodyParser.text())
 router.use((req, res, next) => {
   const range = req.headers['content-range']
   const matchKnown = range.match(/^bytes (\d+?)-(\d+?)\/(\d+?)$/)
-  const matchUnknown = range.match(/^bytes \*\/(\d+?)$/)
+  const matchUnknownRange = range.match(/^bytes \*\/(\d+?)$/)
+  const matchUnknownTotal = range.match(/^bytes (\d+?)-(\d+?)\/\*$/)
+  const matchUnknownRangeAndTotal = range.match(/^bytes \*\/\*$/)
 
-  if (matchUnknown) {
+  if (matchUnknownRangeAndTotal) {
+    req.range = {
+      known: false
+    }
+    next()
+  } else if (matchUnknownRange) {
     req.range = {
       known: false,
-      total: matchUnknown[1]
+      total: matchUnknownRange[1]
+    }
+    next()
+  } else if (matchUnknownTotal) {
+    req.range = {
+      known: true,
+      start: matchUnknownTotal[1],
+      end: matchUnknownTotal[2]
     }
     next()
   } else if (matchKnown) {
@@ -53,11 +67,12 @@ router.put('/', (req, res) => {
     }
   }
 
-  if (req.range.known) {
+  if (req.range.end) {
     file.index = req.range.end
   }
   res.set('range', `bytes=0-${file.index}`)
   if (file.index + 1 === file.total) {
+    console.log('UPLOAD COMPLETED')
     res.send(200).send('OK')
   } else {
     res.status(308).send('Resume Incomplete')

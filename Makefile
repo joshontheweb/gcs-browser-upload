@@ -18,3 +18,6 @@ test-watch:
 
 compile:
 	NODE_ENV=production $(BIN)/babel src --out-dir dist --copy-files
+
+compile-watch:
+	NODE_ENV=production $(BIN)/babel -w src --out-dir dist --copy-files

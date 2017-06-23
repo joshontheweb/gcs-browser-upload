@@ -146,7 +146,7 @@ export default class Upload {
       throw new UploadAlreadyFinishedError()
     }
 
-    if (meta.isResumable() && meta.getFileSize() === opts.file.size) {
+    if (meta.isResumable()) {
       debug('Upload might be resumable')
       await resumeUpload()
     } else {

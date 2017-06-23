@@ -31,7 +31,7 @@ class FileProcessor {
 
       const start = index * chunkSize
       const section = file.slice(start, start + chunkSize)
-      const chunk = await getData(file, section)
+      const chunk = await getData(section)
       const checksum = getChecksum(spark, chunk)
 
       const shouldContinue = await fn(checksum, index, chunk)
@@ -60,7 +60,7 @@ class FileProcessor {
   }
 }
 
-function getChecksum (spark, chunk) {
+export function getChecksum (spark, chunk) {
   spark.append(chunk)
   const state = spark.getState()
   const checksum = spark.end()
@@ -68,7 +68,7 @@ function getChecksum (spark, chunk) {
   return checksum
 }
 
-async function getData (file, blob) {
+export async function getData (blob) {
   return new Promise((resolve, reject) => {
     let reader = new window.FileReader()
     reader.onload = () => resolve(reader.result)

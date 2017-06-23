@@ -9,6 +9,12 @@ export class DifferentChunkError extends ExtendableError {
   }
 }
 
+export class ResumeIndexesOutOfSyncError extends ExtendableError {
+  constructor (localResumeIndex, remoteResumeIndex) {
+    super(`Local resume index (${localResumeIndex}) is our of sync with the remote resume inxed (${remoteResumeIndex})`)
+  }
+}
+
 export class FileAlreadyUploadedError extends ExtendableError {
   constructor (id, url) {
     super(`File '${id}' has already been uploaded to unique url '${url}'`)
@@ -27,6 +33,12 @@ export class UploadFailedError extends ExtendableError {
   }
 }
 
+export class UploadUnableToRecoverError extends ExtendableError {
+  constructor () {
+    super('The upload what unable to recover after trying restricted exponention backoff')
+  }
+}
+
 export class UnknownResponseError extends ExtendableError {
   constructor (res) {
     super('Unknown response received from GCS')
@@ -35,8 +47,8 @@ export class UnknownResponseError extends ExtendableError {
 }
 
 export class MissingOptionsError extends ExtendableError {
-  constructor () {
-    super('Missing options for Upload')
+  constructor (details) {
+    super(`Missing required options for Upload - ${details}`)
   }
 }
 
