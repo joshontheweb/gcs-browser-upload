@@ -57,6 +57,7 @@
     "spark-md5": "^2.0.2"
   },
   "files": [
+    "Makefile",
     "dist",
     "README.md"
   ],
