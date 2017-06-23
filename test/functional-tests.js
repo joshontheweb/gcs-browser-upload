@@ -43,7 +43,7 @@ describe('Functional', () => {
       id: 'foo',
       url: url || '/file',
       chunkSize: chunkSize,
-      backoffMillis: 1000,
+      backoffMillis: 100,
       backoffRetryLimit: 5
     }, true)
 
