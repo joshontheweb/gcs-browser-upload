@@ -9,7 +9,7 @@
     "compile": "make compile",
     "compilewatch": "make compile-watch",
     "prepublishOnly": "npm run compile",
-    "postinstall": "npm run compile && npm install --ignore-scripts"
+    "postinstall": "npm install --ignore-scripts && npm run compile"
   },
   "repository": {
     "type": "git",
