@@ -1,6 +1,6 @@
 {
   "name": "gcs-browser-upload",
-  "version": "2.1.4-beta",
+  "version": "2.1.5-beta",
   "description": "Resumable, chunked uploads to Google Cloud Storage from the browser",
   "main": "dist/index.js",
   "scripts": {
