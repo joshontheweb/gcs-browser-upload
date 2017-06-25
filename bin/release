@@ -1,0 +1,17 @@
+if [[ -z $(git status -s) ]]
+then
+  npm prune && \
+  npm shrinkwrap && \
+  npm run compile || { printf '\n\nPreparation failed. Exiting early.\n\n'; exit 1; }
+
+  if [[ -n $(git status -s) ]]
+  then
+    git add . && \
+    git commit -m 'shinkwraping/compiling before release' || { printf '\n\nUnable to commit changes. Exiting early.\n\n'; exit 1; }
+  fi
+
+  ./node_modules/.bin/releasy
+else
+  echo "tree is dirty, please commit changes before running this"
+  exit
+fi

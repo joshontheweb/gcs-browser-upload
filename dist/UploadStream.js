@@ -99,9 +99,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var MIN_CHUNK_SIZE = 262144;
 
-var Upload = function () {
-  function Upload(args, allowSmallChunks) {
-    (0, _classCallCheck3.default)(this, Upload);
+var UploadStream = function () {
+  function UploadStream(args, allowSmallChunks) {
+    (0, _classCallCheck3.default)(this, UploadStream);
 
     this.paused = false;
     this.unpauseHandlers = [];
@@ -141,7 +141,7 @@ var Upload = function () {
     this.meta = new _FileMeta2.default(opts.id, 0, opts.chunkSize, opts.storage);
   }
 
-  (0, _createClass3.default)(Upload, [{
+  (0, _createClass3.default)(UploadStream, [{
     key: 'uploadChunk',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(index, chunk) {
@@ -334,11 +334,11 @@ var Upload = function () {
       (0, _debug2.default)('Upload cancelled');
     }
   }]);
-  return Upload;
+  return UploadStream;
 }();
 
-Upload.errors = errors;
-exports.default = Upload;
+UploadStream.errors = errors;
+exports.default = UploadStream;
 
 
 function checkResponseStatus(res, opts) {
