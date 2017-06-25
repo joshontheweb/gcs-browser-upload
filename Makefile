@@ -18,8 +18,8 @@ test-watch:
 
 compile:
 	NODE_ENV=production $(BIN)/babel src --out-dir dist --copy-files
-	$(BIN)/browserify -g uglifyify dist/index.js -o dist/bundle.js -v
+	$(BIN)/browserify --standalone upload -v -g uglifyify -v dist/index.js | $(BIN)/derequire > dist/bundle.js
 
 compile-watch:
 	NODE_ENV=production $(BIN)/babel -w src --out-dir dist --copy-file &
-	$(BIN)/watchify -g uglifyify dist/index.js -o dist/bundle.js -v
+	$(BIN)/watchify --standalone upload -v -g uglifyify -v dist/index.js | $(BIN)/derequire > dist/bundle.js -v
