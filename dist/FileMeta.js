@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -50,7 +46,7 @@ var FileMeta = function () {
     value: function setMeta(meta) {
       var key = STORAGE_KEY + '.' + this.id;
       if (meta) {
-        this.storage.setItem(key, (0, _stringify2.default)(meta));
+        this.storage.setItem(key, JSON.stringify(meta));
       } else {
         this.storage.removeItem(key);
       }

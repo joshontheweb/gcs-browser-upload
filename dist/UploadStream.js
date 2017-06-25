@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -323,7 +319,7 @@ var UploadStream = function () {
     value: function waitForUnpause() {
       var _this2 = this;
 
-      return new _promise2.default(function (resolve) {
+      return new Promise(function (resolve) {
         _this2.unpauseHandlers.push(resolve);
       });
     }

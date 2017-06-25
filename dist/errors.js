@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.UploadAlreadyFinishedError = exports.InvalidChunkSizeError = exports.UploadIncompleteError = exports.MissingOptionsError = exports.UnknownResponseError = exports.UploadUnableToRecoverError = exports.UploadFailedError = exports.UrlNotFoundError = exports.FileAlreadyUploadedError = exports.ResumeIndexesOutOfSyncError = exports.DifferentChunkError = undefined;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -33,7 +29,7 @@ var DifferentChunkError = exports.DifferentChunkError = function (_ExtendableErr
   function DifferentChunkError(chunkIndex, originalChecksum, newChecksum) {
     (0, _classCallCheck3.default)(this, DifferentChunkError);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (DifferentChunkError.__proto__ || (0, _getPrototypeOf2.default)(DifferentChunkError)).call(this, 'Chunk at index \'' + chunkIndex + '\' is different to original'));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (DifferentChunkError.__proto__ || Object.getPrototypeOf(DifferentChunkError)).call(this, 'Chunk at index \'' + chunkIndex + '\' is different to original'));
 
     _this.chunkIndex = chunkIndex;
     _this.originalChecksum = originalChecksum;
@@ -49,7 +45,7 @@ var ResumeIndexesOutOfSyncError = exports.ResumeIndexesOutOfSyncError = function
 
   function ResumeIndexesOutOfSyncError(localResumeIndex, remoteResumeIndex) {
     (0, _classCallCheck3.default)(this, ResumeIndexesOutOfSyncError);
-    return (0, _possibleConstructorReturn3.default)(this, (ResumeIndexesOutOfSyncError.__proto__ || (0, _getPrototypeOf2.default)(ResumeIndexesOutOfSyncError)).call(this, 'Local resume index (' + localResumeIndex + ') is our of sync with the remote resume inxed (' + remoteResumeIndex + ')'));
+    return (0, _possibleConstructorReturn3.default)(this, (ResumeIndexesOutOfSyncError.__proto__ || Object.getPrototypeOf(ResumeIndexesOutOfSyncError)).call(this, 'Local resume index (' + localResumeIndex + ') is our of sync with the remote resume inxed (' + remoteResumeIndex + ')'));
   }
 
   return ResumeIndexesOutOfSyncError;
@@ -60,7 +56,7 @@ var FileAlreadyUploadedError = exports.FileAlreadyUploadedError = function (_Ext
 
   function FileAlreadyUploadedError(id, url) {
     (0, _classCallCheck3.default)(this, FileAlreadyUploadedError);
-    return (0, _possibleConstructorReturn3.default)(this, (FileAlreadyUploadedError.__proto__ || (0, _getPrototypeOf2.default)(FileAlreadyUploadedError)).call(this, 'File \'' + id + '\' has already been uploaded to unique url \'' + url + '\''));
+    return (0, _possibleConstructorReturn3.default)(this, (FileAlreadyUploadedError.__proto__ || Object.getPrototypeOf(FileAlreadyUploadedError)).call(this, 'File \'' + id + '\' has already been uploaded to unique url \'' + url + '\''));
   }
 
   return FileAlreadyUploadedError;
@@ -71,7 +67,7 @@ var UrlNotFoundError = exports.UrlNotFoundError = function (_ExtendableError4) {
 
   function UrlNotFoundError(url) {
     (0, _classCallCheck3.default)(this, UrlNotFoundError);
-    return (0, _possibleConstructorReturn3.default)(this, (UrlNotFoundError.__proto__ || (0, _getPrototypeOf2.default)(UrlNotFoundError)).call(this, 'Upload URL \'' + url + '\' has either expired or is invalid'));
+    return (0, _possibleConstructorReturn3.default)(this, (UrlNotFoundError.__proto__ || Object.getPrototypeOf(UrlNotFoundError)).call(this, 'Upload URL \'' + url + '\' has either expired or is invalid'));
   }
 
   return UrlNotFoundError;
@@ -82,7 +78,7 @@ var UploadFailedError = exports.UploadFailedError = function (_ExtendableError5)
 
   function UploadFailedError(status) {
     (0, _classCallCheck3.default)(this, UploadFailedError);
-    return (0, _possibleConstructorReturn3.default)(this, (UploadFailedError.__proto__ || (0, _getPrototypeOf2.default)(UploadFailedError)).call(this, 'HTTP status ' + status + ' received from GCS, consider retrying'));
+    return (0, _possibleConstructorReturn3.default)(this, (UploadFailedError.__proto__ || Object.getPrototypeOf(UploadFailedError)).call(this, 'HTTP status ' + status + ' received from GCS, consider retrying'));
   }
 
   return UploadFailedError;
@@ -93,7 +89,7 @@ var UploadUnableToRecoverError = exports.UploadUnableToRecoverError = function (
 
   function UploadUnableToRecoverError() {
     (0, _classCallCheck3.default)(this, UploadUnableToRecoverError);
-    return (0, _possibleConstructorReturn3.default)(this, (UploadUnableToRecoverError.__proto__ || (0, _getPrototypeOf2.default)(UploadUnableToRecoverError)).call(this, 'The upload what unable to recover after trying restricted exponention backoff'));
+    return (0, _possibleConstructorReturn3.default)(this, (UploadUnableToRecoverError.__proto__ || Object.getPrototypeOf(UploadUnableToRecoverError)).call(this, 'The upload what unable to recover after trying restricted exponention backoff'));
   }
 
   return UploadUnableToRecoverError;
@@ -105,7 +101,7 @@ var UnknownResponseError = exports.UnknownResponseError = function (_ExtendableE
   function UnknownResponseError(res) {
     (0, _classCallCheck3.default)(this, UnknownResponseError);
 
-    var _this7 = (0, _possibleConstructorReturn3.default)(this, (UnknownResponseError.__proto__ || (0, _getPrototypeOf2.default)(UnknownResponseError)).call(this, 'Unknown response received from GCS'));
+    var _this7 = (0, _possibleConstructorReturn3.default)(this, (UnknownResponseError.__proto__ || Object.getPrototypeOf(UnknownResponseError)).call(this, 'Unknown response received from GCS'));
 
     _this7.res = res;
     return _this7;
@@ -119,7 +115,7 @@ var MissingOptionsError = exports.MissingOptionsError = function (_ExtendableErr
 
   function MissingOptionsError(details) {
     (0, _classCallCheck3.default)(this, MissingOptionsError);
-    return (0, _possibleConstructorReturn3.default)(this, (MissingOptionsError.__proto__ || (0, _getPrototypeOf2.default)(MissingOptionsError)).call(this, 'Missing required options for Upload - ' + details));
+    return (0, _possibleConstructorReturn3.default)(this, (MissingOptionsError.__proto__ || Object.getPrototypeOf(MissingOptionsError)).call(this, 'Missing required options for Upload - ' + details));
   }
 
   return MissingOptionsError;
@@ -130,7 +126,7 @@ var UploadIncompleteError = exports.UploadIncompleteError = function (_Extendabl
 
   function UploadIncompleteError() {
     (0, _classCallCheck3.default)(this, UploadIncompleteError);
-    return (0, _possibleConstructorReturn3.default)(this, (UploadIncompleteError.__proto__ || (0, _getPrototypeOf2.default)(UploadIncompleteError)).call(this, 'Upload is not complete'));
+    return (0, _possibleConstructorReturn3.default)(this, (UploadIncompleteError.__proto__ || Object.getPrototypeOf(UploadIncompleteError)).call(this, 'Upload is not complete'));
   }
 
   return UploadIncompleteError;
@@ -141,7 +137,7 @@ var InvalidChunkSizeError = exports.InvalidChunkSizeError = function (_Extendabl
 
   function InvalidChunkSizeError(chunkSize) {
     (0, _classCallCheck3.default)(this, InvalidChunkSizeError);
-    return (0, _possibleConstructorReturn3.default)(this, (InvalidChunkSizeError.__proto__ || (0, _getPrototypeOf2.default)(InvalidChunkSizeError)).call(this, 'Invalid chunk size ' + chunkSize + ', must be a multiple of 262144'));
+    return (0, _possibleConstructorReturn3.default)(this, (InvalidChunkSizeError.__proto__ || Object.getPrototypeOf(InvalidChunkSizeError)).call(this, 'Invalid chunk size ' + chunkSize + ', must be a multiple of 262144'));
   }
 
   return InvalidChunkSizeError;
@@ -152,7 +148,7 @@ var UploadAlreadyFinishedError = exports.UploadAlreadyFinishedError = function (
 
   function UploadAlreadyFinishedError() {
     (0, _classCallCheck3.default)(this, UploadAlreadyFinishedError);
-    return (0, _possibleConstructorReturn3.default)(this, (UploadAlreadyFinishedError.__proto__ || (0, _getPrototypeOf2.default)(UploadAlreadyFinishedError)).call(this, 'Upload instance has already finished'));
+    return (0, _possibleConstructorReturn3.default)(this, (UploadAlreadyFinishedError.__proto__ || Object.getPrototypeOf(UploadAlreadyFinishedError)).call(this, 'Upload instance has already finished'));
   }
 
   return UploadAlreadyFinishedError;

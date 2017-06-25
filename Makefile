@@ -17,7 +17,7 @@ test-watch:
 	@NODE_ENV=test $(BIN)/mocha -w $(TESTS)
 
 compile:
-	NODE_ENV=production $(BIN)/babel src --out-dir dist --copy-files 
+	NODE_ENV=production $(BIN)/babel src --out-dir dist --copy-files
 	$(BIN)/browserify dist/index.js -o dist/bundle.js -v
 
 compile-watch:
