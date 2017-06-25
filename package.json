@@ -81,5 +81,6 @@
       "arrow-parens": 0,
       "babel/arrow-parens": 1
     }
-  }
+  },
+  "false": {}
 }
