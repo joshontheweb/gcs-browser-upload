@@ -19,7 +19,7 @@ import * as errors from './errors'
 const MIN_CHUNK_SIZE = 262144
 
 export default class UploadStream {
-  static errors = errors;
+  static errors = errors
 
   constructor (args, allowSmallChunks) {
     this.paused = false
