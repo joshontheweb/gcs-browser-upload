@@ -10,7 +10,7 @@ then
     git commit -m 'shinkwraping/compiling before release' || { printf '\n\nUnable to commit changes. Exiting early.\n\n'; exit 1; }
   fi
 
-  ./node_modules/.bin/releasy
+  ./node_modules/.bin/releasy $0
 else
   echo "tree is dirty, please commit changes before running this"
   exit
