@@ -7,7 +7,7 @@ then
   if [[ -n $(git status -s) ]]
   then
     git add . && \
-    git commit -m 'shinkwraping/compiling before release' || { printf '\n\nUnable to commit changes. Exiting early.\n\n'; exit 1; }
+    git commit -m 'shinkwrapping/compiling before release' || { printf '\n\nUnable to commit changes. Exiting early.\n\n'; exit 1; }
   fi
 
   ./node_modules/.bin/releasy $0

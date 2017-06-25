@@ -9,7 +9,6 @@
     "compile": "make compile",
     "compilewatch": "make compile-watch",
     "prepublishOnly": "npm run compile",
-    "postinstall": "npm install --ignore-scripts",
     "release": "./bin/release"
   },
   "repository": {
