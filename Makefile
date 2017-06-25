@@ -18,8 +18,8 @@ test-watch:
 
 compile:
 	NODE_ENV=production $(BIN)/babel src --out-dir dist --copy-files
-	$(BIN)/browserify -t uglifyify dist/index.js -o dist/bundle.js -v
+	$(BIN)/browserify -g uglifyify dist/index.js -o dist/bundle.js -v
 
 compile-watch:
 	NODE_ENV=production $(BIN)/babel -w src --out-dir dist --copy-file &
-	$(BIN)/watchify -t uglifyify dist/index.js -o dist/bundle.js -v
+	$(BIN)/watchify -g uglifyify dist/index.js -o dist/bundle.js -v
