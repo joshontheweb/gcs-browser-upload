@@ -25,7 +25,8 @@ describe('Functional', () => {
       id: 'foo',
       url: url || '/file',
       chunkSize: chunkSize,
-      file: makeFile(file)
+      file: makeFile(file),
+      onProgress: console.log.bind(this)
     }, true)
     await upload.start()
     requests = getRequests()
@@ -44,7 +45,8 @@ describe('Functional', () => {
       url: url || '/file',
       chunkSize: chunkSize,
       backoffMillis: 100,
-      backoffRetryLimit: 5
+      backoffRetryLimit: 5,
+      onProgress: console.log.bind(this)
     }, true)
 
     let i
@@ -227,7 +229,7 @@ describe('Functional', () => {
 
     it('should check the server for status before resuming', async () => {
       await doUpload(null)
-      expect(requests[1].body).to.deep.equal({})
+      expect(requests[1].body).to.deep.equal('')
     })
 
     it('should send the rest of the chunks after being resumed', () => {
@@ -249,7 +251,14 @@ describe('Functional', () => {
 
     it('should check the server for status before resuming', async () => {
       await doUpload(500)
-      expect(requests[1].body).to.deep.equal({})
+      expect(requests[1].body).to.equal('')
+    })
+
+    it('should send the correct headers', () => {
+      expect(requests[1].headers).to.containSubset({
+        'content-range': 'bytes */500',
+        'content-type': 'text/plain'
+      })
     })
 
     it('should upload part of the first file', () => {
@@ -281,7 +290,7 @@ describe('Functional', () => {
 
     it('should start standard multi-chunk upload and check the server for status before resuming', async () => {
       await doUpload(null)
-      expect(requests[2].body).to.deep.equal({})
+      expect(requests[2].body).to.deep.equal('')
     })
 
     it('should send the rest of the chunks after being resumed', () => {

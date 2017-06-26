@@ -72,7 +72,6 @@ router.put('/', (req, res) => {
   }
   res.set('range', `bytes=0-${file.index}`)
   if (file.index + 1 === file.total) {
-    console.log('UPLOAD COMPLETED')
     res.send(200).send('OK')
   } else {
     res.status(308).send('Resume Incomplete')
@@ -88,7 +87,7 @@ export async function start () {
   const app = express()
   app.use('/file', router)
   server = await pify(::app.listen)(port)
-  axios.defaults.baseURL = `http://localhost:${port}`
+  axios.defaults.baseURL = `http://localhost:${port}/`
 }
 
 export function resetServer () {

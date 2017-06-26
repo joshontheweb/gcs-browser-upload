@@ -24,48 +24,7 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var safePut = function () {
-  var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-    var _args4 = arguments;
-    return _regenerator2.default.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
-            return _axios.put.apply(null, _args4);
-
-          case 3:
-            return _context4.abrupt('return', _context4.sent);
-
-          case 6:
-            _context4.prev = 6;
-            _context4.t0 = _context4['catch'](0);
-
-            if (!(_context4.t0 instanceof Error)) {
-              _context4.next = 12;
-              break;
-            }
-
-            throw _context4.t0;
-
-          case 12:
-            return _context4.abrupt('return', _context4.t0);
-
-          case 13:
-          case 'end':
-            return _context4.stop();
-        }
-      }
-    }, _callee4, this, [[0, 6]]);
-  }));
-
-  return function safePut() {
-    return _ref4.apply(this, arguments);
-  };
-}();
-
-var _axios = require('axios');
+var _http = require('./http');
 
 var _FileMeta = require('./FileMeta');
 
@@ -188,8 +147,9 @@ var UploadStream = function () {
                         switch (_context.prev = _context.next) {
                           case 0:
                             _context.next = 2;
-                            return safePut(opts.url, chunk, {
+                            return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
+                                console.log(progressEvent.loaded);
                                 opts.onProgress({
                                   totalBytes: start + chunk.byteLength,
                                   uploadedBytes: start + progressEvent.loaded,
@@ -263,12 +223,13 @@ var UploadStream = function () {
               case 0:
                 opts = this.opts;
                 headers = {
-                  'Content-Range': 'bytes */*'
+                  'Content-Range': 'bytes */*',
+                  'Content-Type': opts.contentType
                 };
 
                 (0, _debug2.default)('Retrieving upload status from GCS');
                 _context3.next = 5;
-                return safePut(opts.url, null, { headers: headers });
+                return (0, _http.safePut)(opts.url, null, { headers: headers });
 
               case 5:
                 res = _context3.sent;

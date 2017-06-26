@@ -1,4 +1,4 @@
-import { put } from 'axios'
+import { safePut } from './http'
 import FileMeta from './FileMeta'
 import FileProcessor from './FileProcessor'
 import debug from './debug'
@@ -129,7 +129,8 @@ export default class Upload {
 
     const getRemoteResumeIndex = async () => {
       const headers = {
-        'Content-Range': `bytes */${opts.file.size}`
+        'Content-Range': `bytes */${opts.file.size}`,
+        'Content-Type': opts.contentType
       }
       debug('Retrieving upload status from GCS')
       const res = await safePut(opts.url, null, { headers })
@@ -200,17 +201,5 @@ function checkResponseStatus (res, opts, allowed = []) {
 
     default:
       throw new UnknownResponseError(res)
-  }
-}
-
-async function safePut () {
-  try {
-    return await put.apply(null, arguments)
-  } catch (e) {
-    if (e instanceof Error) {
-      throw e
-    } else {
-      return e
-    }
   }
 }

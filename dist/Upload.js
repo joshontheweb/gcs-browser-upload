@@ -24,48 +24,7 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var safePut = function () {
-  var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-    var _args6 = arguments;
-    return _regenerator2.default.wrap(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
-            return _axios.put.apply(null, _args6);
-
-          case 3:
-            return _context6.abrupt('return', _context6.sent);
-
-          case 6:
-            _context6.prev = 6;
-            _context6.t0 = _context6['catch'](0);
-
-            if (!(_context6.t0 instanceof Error)) {
-              _context6.next = 12;
-              break;
-            }
-
-            throw _context6.t0;
-
-          case 12:
-            return _context6.abrupt('return', _context6.t0);
-
-          case 13:
-          case 'end':
-            return _context6.stop();
-        }
-      }
-    }, _callee6, this, [[0, 6]]);
-  }));
-
-  return function safePut() {
-    return _ref6.apply(this, arguments);
-  };
-}();
-
-var _axios = require('axios');
+var _http = require('./http');
 
 var _FileMeta = require('./FileMeta');
 
@@ -219,7 +178,7 @@ var Upload = function () {
                             (0, _debug2.default)(' - End: ' + end);
 
                             _context2.next = 10;
-                            return safePut(opts.url, chunk, {
+                            return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
                                 opts.onProgress({
                                   totalBytes: total,
@@ -297,12 +256,13 @@ var Upload = function () {
                         switch (_context4.prev = _context4.next) {
                           case 0:
                             headers = {
-                              'Content-Range': 'bytes */' + opts.file.size
+                              'Content-Range': 'bytes */' + opts.file.size,
+                              'Content-Type': opts.contentType
                             };
 
                             (0, _debug2.default)('Retrieving upload status from GCS');
                             _context4.next = 4;
-                            return safePut(opts.url, null, { headers: headers });
+                            return (0, _http.safePut)(opts.url, null, { headers: headers });
 
                           case 4:
                             res = _context4.sent;

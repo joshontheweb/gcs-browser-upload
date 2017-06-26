@@ -1,4 +1,4 @@
-import { put } from 'axios'
+import { safePut } from './http'
 import FileMeta from './FileMeta'
 import { getChecksum } from './FileProcessor'
 import debug from './debug'
@@ -90,6 +90,7 @@ export default class UploadStream {
       await retry(async (bail, num) => {
         const res = await safePut(opts.url, chunk, {
           headers, onUploadProgress: function (progressEvent) {
+            console.log(progressEvent.loaded)
             opts.onProgress({
               totalBytes: start + chunk.byteLength,
               uploadedBytes: start + progressEvent.loaded,
@@ -118,7 +119,8 @@ export default class UploadStream {
   async getRemoteResumeIndex () {
     const { opts } = this
     const headers = {
-      'Content-Range': 'bytes */*'
+      'Content-Range': 'bytes */*',
+      'Content-Type': opts.contentType
     }
     debug('Retrieving upload status from GCS')
     const res = await safePut(opts.url, null, { headers })
@@ -182,17 +184,5 @@ function checkResponseStatus (res, opts, allowed = []) {
 
     default:
       throw new UnknownResponseError(res)
-  }
-}
-
-async function safePut () {
-  try {
-    return await put.apply(null, arguments)
-  } catch (e) {
-    if (e instanceof Error) {
-      throw e
-    } else {
-      return e
-    }
   }
 }
