@@ -1437,8 +1437,7 @@
       "integrity": "sha1-wcS5vuPglyXdsQa3XB4wH+LxiyY="
     },
     "filereader": {
-      "version": "github:oliverwoodings/FileReader#215f535d0774c06e6aa0b3a46ab349d16823d16c",
-      "dev": true
+      "version": "github:oliverwoodings/FileReader#215f535d0774c06e6aa0b3a46ab349d16823d16c"
     },
     "fill-range": {
       "version": "2.2.3",
