@@ -99,11 +99,11 @@ var UploadStream = function () {
   (0, _createClass3.default)(UploadStream, [{
     key: 'uploadChunk',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(index, chunk) {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(index, chunk, isLastChunk) {
         var _this = this;
 
-        var backoff = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-        var opts, meta, start, end, checksum, headers;
+        var backoff = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+        var opts, meta, start, end, checksum, contentRange, headers;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -122,9 +122,10 @@ var UploadStream = function () {
 
               case 6:
                 checksum = (0, _FileProcessor.getChecksum)(this.spark, chunk);
+                contentRange = isLastChunk ? 'bytes ' + start + '-' + end + '/' + end : 'bytes ' + start + '-' + end + '/*';
                 headers = {
                   'Content-Type': opts.contentType,
-                  'Content-Range': 'bytes ' + start + '-' + end + '/*'
+                  'Content-Range': contentRange
                 };
 
 
@@ -133,13 +134,14 @@ var UploadStream = function () {
                 (0, _debug2.default)(' - Start: ' + start);
                 (0, _debug2.default)(' - End: ' + end);
                 (0, _debug2.default)(' - Headers: ' + headers);
+                (0, _debug2.default)(' - isLastChunk: ' + isLastChunk);
 
                 // if (backoff >= opts.backoffRetryLimit) {
                 //   throw new UploadUnableToRecoverError()
                 // }
 
-                _context2.prev = 13;
-                _context2.next = 16;
+                _context2.prev = 15;
+                _context2.next = 18;
                 return (0, _asyncRetry2.default)(function () {
                   var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(bail, num) {
                     var res;
@@ -174,21 +176,21 @@ var UploadStream = function () {
                     }, _callee, _this);
                   }));
 
-                  return function (_x4, _x5) {
+                  return function (_x5, _x6) {
                     return _ref2.apply(this, arguments);
                   };
                 }(), { retries: opts.backoffRetryLimit, minTimeout: opts.backoffMillis });
 
-              case 16:
-                _context2.next = 21;
+              case 18:
+                _context2.next = 23;
                 break;
 
-              case 18:
-                _context2.prev = 18;
-                _context2.t0 = _context2['catch'](13);
+              case 20:
+                _context2.prev = 20;
+                _context2.t0 = _context2['catch'](15);
                 throw new _errors.UploadUnableToRecoverError();
 
-              case 21:
+              case 23:
 
                 (0, _debug2.default)('Chunk upload succeeded, adding checksum ' + checksum);
                 meta.addChecksum(index, checksum);
@@ -199,15 +201,15 @@ var UploadStream = function () {
                   chunkLength: chunk.byteLength
                 });
 
-              case 24:
+              case 26:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[13, 18]]);
+        }, _callee2, this, [[15, 20]]);
       }));
 
-      function uploadChunk(_x, _x2) {
+      function uploadChunk(_x, _x2, _x3) {
         return _ref.apply(this, arguments);
       }
 

@@ -15,7 +15,8 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var safePut = exports.safePut = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-    var _args = arguments;
+    var res,
+        _args = arguments;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -25,10 +26,13 @@ var safePut = exports.safePut = function () {
             return _axios2.default.put.apply(null, _args);
 
           case 3:
-            return _context.abrupt('return', _context.sent);
+            res = _context.sent;
 
-          case 6:
-            _context.prev = 6;
+            (0, _debug2.default)('\'PUT\' request response: ' + res);
+            return _context.abrupt('return', res);
+
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context['catch'](0);
 
             // if (e instanceof Error) {
@@ -36,15 +40,15 @@ var safePut = exports.safePut = function () {
             //   throw e
             // } else {
             // console.log(e.response.status, e.response.statusText, e.response.headers)
-            (0, _debug2.default)('\'PUT\' request response ' + _context.t0.response);
+            (0, _debug2.default)('\'PUT\' error request response: ' + _context.t0.response);
             return _context.abrupt('return', _context.t0.response);
 
-          case 10:
+          case 12:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[0, 6]]);
+    }, _callee, this, [[0, 8]]);
   }));
 
   return function safePut() {
