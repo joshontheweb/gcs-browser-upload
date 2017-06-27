@@ -28,11 +28,13 @@ var safePut = exports.safePut = function () {
           case 3:
             res = _context.sent;
 
-            (0, _debug2.default)('\'PUT\' request response: ' + res);
+            (0, _debug2.default)('\'PUT\' request response status: ' + res.status);
+            (0, _debug2.default)('\'PUT\' request response headers: ' + JSON.stringify(res.headers));
+            (0, _debug2.default)('\'PUT\' request response body: ' + res.data);
             return _context.abrupt('return', res);
 
-          case 8:
-            _context.prev = 8;
+          case 10:
+            _context.prev = 10;
             _context.t0 = _context['catch'](0);
 
             // if (e instanceof Error) {
@@ -40,15 +42,17 @@ var safePut = exports.safePut = function () {
             //   throw e
             // } else {
             // console.log(e.response.status, e.response.statusText, e.response.headers)
-            (0, _debug2.default)('\'PUT\' error request response: ' + _context.t0.response);
+            (0, _debug2.default)('\'PUT\' error response status: ' + _context.t0.response.status);
+            (0, _debug2.default)('\'PUT\' error response headers: ' + JSON.stringify(_context.t0.response.headers));
+            (0, _debug2.default)('\'PUT\' error response body: ' + _context.t0.response.data);
             return _context.abrupt('return', _context.t0.response);
 
-          case 12:
+          case 16:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[0, 8]]);
+    }, _callee, this, [[0, 10]]);
   }));
 
   return function safePut() {

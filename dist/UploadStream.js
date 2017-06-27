@@ -133,7 +133,7 @@ var UploadStream = function () {
                 (0, _debug2.default)(' - Chunk length: ' + chunk.byteLength);
                 (0, _debug2.default)(' - Start: ' + start);
                 (0, _debug2.default)(' - End: ' + end);
-                (0, _debug2.default)(' - Headers: ' + headers);
+                (0, _debug2.default)(' - Headers: ' + JSON.stringify(headers));
                 (0, _debug2.default)(' - isLastChunk: ' + isLastChunk);
 
                 // if (backoff >= opts.backoffRetryLimit) {
