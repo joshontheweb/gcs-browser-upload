@@ -54,7 +54,8 @@ describe('Functional', () => {
     for (i = 0; byteOffset < fileBlob.size; i++) {
       if (pauseOnChunk && i === pauseOnChunk) upload.pause()
       let chunk = await getData(fileBlob.slice(byteOffset, byteOffset + chunkSize))
-      await upload.uploadChunk(i, chunk)
+      let isLast = byteOffset + chunkSize >= fileBlob.size
+      await upload.uploadChunk(i, chunk, isLast)
       byteOffset += chunkSize
     }
 
@@ -166,7 +167,7 @@ describe('Functional', () => {
       })
       expect(requests[2].headers).to.containSubset({
         'content-length': '188',
-        'content-range': 'bytes 512-699/*'
+        'content-range': 'bytes 512-699/699'
       })
     })
 
