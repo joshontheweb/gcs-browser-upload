@@ -167,7 +167,7 @@ describe('Functional', () => {
       })
       expect(requests[2].headers).to.containSubset({
         'content-length': '188',
-        'content-range': 'bytes 512-699/699'
+        'content-range': 'bytes 512-699/700'
       })
     })
 

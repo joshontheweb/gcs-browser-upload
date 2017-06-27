@@ -61,7 +61,7 @@ export default class UploadStream {
     this.meta = new FileMeta(opts.id, 0, opts.chunkSize, opts.storage)
   }
 
-  async uploadChunk (index, chunk, isLastChunk, backoff = 1) {
+  async uploadChunk (index, chunk, isLastChunk = false, backoff = 1) {
     const { opts, meta } = this
     const start = index * opts.chunkSize
     const end = index * opts.chunkSize + chunk.byteLength - 1
@@ -72,7 +72,7 @@ export default class UploadStream {
 
     const checksum = getChecksum(this.spark, chunk)
 
-    const contentRange = isLastChunk ? `bytes ${start}-${end}/${end}` : `bytes ${start}-${end}/*`
+    const contentRange = isLastChunk ? `bytes ${start}-${end}/${end + 1}` : `bytes ${start}-${end}/*`
 
     const headers = {
       'Content-Type': opts.contentType,

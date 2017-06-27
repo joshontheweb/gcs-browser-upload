@@ -795,9 +795,10 @@ var UploadStream = function () {
   (0, _createClass3.default)(UploadStream, [{
     key: 'uploadChunk',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(index, chunk, isLastChunk) {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(index, chunk) {
         var _this = this;
 
+        var isLastChunk = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         var backoff = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
         var opts, meta, start, end, checksum, contentRange, headers;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -818,7 +819,7 @@ var UploadStream = function () {
 
               case 6:
                 checksum = (0, _FileProcessor.getChecksum)(this.spark, chunk);
-                contentRange = isLastChunk ? 'bytes ' + start + '-' + end + '/' + end : 'bytes ' + start + '-' + end + '/*';
+                contentRange = isLastChunk ? 'bytes ' + start + '-' + end + '/' + (end + 1) : 'bytes ' + start + '-' + end + '/*';
                 headers = {
                   'Content-Type': opts.contentType,
                   'Content-Range': contentRange
@@ -905,7 +906,7 @@ var UploadStream = function () {
         }, _callee2, this, [[15, 20]]);
       }));
 
-      function uploadChunk(_x, _x2, _x3) {
+      function uploadChunk(_x, _x2) {
         return _ref.apply(this, arguments);
       }
 
