@@ -828,13 +828,14 @@ var UploadStream = function () {
                 (0, _debug2.default)(' - Chunk length: ' + chunk.byteLength);
                 (0, _debug2.default)(' - Start: ' + start);
                 (0, _debug2.default)(' - End: ' + end);
+                (0, _debug2.default)(' - Headers: ' + headers);
 
                 // if (backoff >= opts.backoffRetryLimit) {
                 //   throw new UploadUnableToRecoverError()
                 // }
 
-                _context2.prev = 12;
-                _context2.next = 15;
+                _context2.prev = 13;
+                _context2.next = 16;
                 return (0, _asyncRetry2.default)(function () {
                   var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(bail, num) {
                     var res;
@@ -874,16 +875,16 @@ var UploadStream = function () {
                   };
                 }(), { retries: opts.backoffRetryLimit, minTimeout: opts.backoffMillis });
 
-              case 15:
-                _context2.next = 20;
+              case 16:
+                _context2.next = 21;
                 break;
 
-              case 17:
-                _context2.prev = 17;
-                _context2.t0 = _context2['catch'](12);
+              case 18:
+                _context2.prev = 18;
+                _context2.t0 = _context2['catch'](13);
                 throw new _errors.UploadUnableToRecoverError();
 
-              case 20:
+              case 21:
 
                 (0, _debug2.default)('Chunk upload succeeded, adding checksum ' + checksum);
                 meta.addChecksum(index, checksum);
@@ -894,12 +895,12 @@ var UploadStream = function () {
                   chunkLength: chunk.byteLength
                 });
 
-              case 23:
+              case 24:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[12, 17]]);
+        }, _callee2, this, [[13, 18]]);
       }));
 
       function uploadChunk(_x, _x2) {
@@ -1226,9 +1227,16 @@ var safePut = exports.safePut = function () {
           case 6:
             _context.prev = 6;
             _context.t0 = _context['catch'](0);
+
+            // if (e instanceof Error) {
+            //   console.log(e.response.status, e.response.statusText, e.response.headers)
+            //   throw e
+            // } else {
+            // console.log(e.response.status, e.response.statusText, e.response.headers)
+            (0, _debug2.default)('\'PUT\' request response ' + _context.t0.response);
             return _context.abrupt('return', _context.t0.response);
 
-          case 9:
+          case 10:
           case 'end':
             return _context.stop();
         }
@@ -1245,6 +1253,10 @@ var _axios = _dereq_('axios');
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _debug = _dereq_('./debug');
+
+var _debug2 = _interopRequireDefault(_debug);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // axios.create({
@@ -1252,7 +1264,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // })
 
 _axios2.default.defaults.maxRedirects = 0;
-},{"axios":10,"babel-runtime/helpers/asyncToGenerator":42,"babel-runtime/regenerator":49}],8:[function(_dereq_,module,exports){
+},{"./debug":5,"axios":10,"babel-runtime/helpers/asyncToGenerator":42,"babel-runtime/regenerator":49}],8:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

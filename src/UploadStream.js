@@ -81,6 +81,7 @@ export default class UploadStream {
     debug(` - Chunk length: ${chunk.byteLength}`)
     debug(` - Start: ${start}`)
     debug(` - End: ${end}`)
+    debug(` - Headers: ${headers}`)
 
     // if (backoff >= opts.backoffRetryLimit) {
     //   throw new UploadUnableToRecoverError()

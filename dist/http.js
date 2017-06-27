@@ -30,9 +30,16 @@ var safePut = exports.safePut = function () {
           case 6:
             _context.prev = 6;
             _context.t0 = _context['catch'](0);
+
+            // if (e instanceof Error) {
+            //   console.log(e.response.status, e.response.statusText, e.response.headers)
+            //   throw e
+            // } else {
+            // console.log(e.response.status, e.response.statusText, e.response.headers)
+            (0, _debug2.default)('\'PUT\' request response ' + _context.t0.response);
             return _context.abrupt('return', _context.t0.response);
 
-          case 9:
+          case 10:
           case 'end':
             return _context.stop();
         }
@@ -48,6 +55,10 @@ var safePut = exports.safePut = function () {
 var _axios = require('axios');
 
 var _axios2 = _interopRequireDefault(_axios);
+
+var _debug = require('./debug');
+
+var _debug2 = _interopRequireDefault(_debug);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
