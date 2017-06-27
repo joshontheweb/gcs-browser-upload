@@ -83,7 +83,7 @@ export default class UploadStream {
     debug(` - Chunk length: ${chunk.byteLength}`)
     debug(` - Start: ${start}`)
     debug(` - End: ${end}`)
-    debug(` - Headers: ${headers}`)
+    debug(` - Headers: ${JSON.stringify(headers)}`)
     debug(` - isLastChunk: ${isLastChunk}`)
 
     // if (backoff >= opts.backoffRetryLimit) {
