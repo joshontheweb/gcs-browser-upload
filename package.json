@@ -1,6 +1,6 @@
 {
   "name": "gcs-browser-upload-stream",
-  "version": "2.1.15",
+  "version": "2.1.16",
   "description": "Resumable, chunked uploads to Google Cloud Storage from the browser",
   "main": "dist/index.js",
   "scripts": {
