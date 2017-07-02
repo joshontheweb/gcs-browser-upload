@@ -114,7 +114,8 @@ export default class Upload {
         totalBytes: total,
         uploadedBytes: end + 1,
         chunkIndex: index,
-        chunkLength: chunk.byteLength
+        chunkLength: chunk.byteLength,
+        isLastChunk: total === end + 1
       })
     }
 

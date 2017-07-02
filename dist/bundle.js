@@ -504,7 +504,8 @@ var Upload = function () {
                               totalBytes: total,
                               uploadedBytes: end + 1,
                               chunkIndex: index,
-                              chunkLength: chunk.byteLength
+                              chunkLength: chunk.byteLength,
+                              isLastChunk: total === end + 1
                             });
 
                           case 15:
@@ -895,7 +896,8 @@ var UploadStream = function () {
                 opts.onChunkUpload({
                   uploadedBytes: end + 1,
                   chunkIndex: index,
-                  chunkLength: chunk.byteLength
+                  chunkLength: chunk.byteLength,
+                  isLastChunk: isLastChunk
                 });
 
               case 26:
