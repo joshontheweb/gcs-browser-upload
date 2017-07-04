@@ -496,6 +496,7 @@ var Upload = function () {
                             _context2.next = 11;
                             return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
+                                console.timeEnd('uploadChunk:put');
                                 opts.onProgress({
                                   totalBytes: total,
                                   uploadedBytes: start + progressEvent.loaded,
@@ -508,7 +509,6 @@ var Upload = function () {
                           case 11:
                             res = _context2.sent;
 
-                            console.timeEnd('uploadChunk:put');
 
                             checkResponseStatus(res, opts, [200, 201, 308]);
                             (0, _debug2.default)('Chunk upload succeeded, adding checksum ' + checksum);
@@ -522,7 +522,7 @@ var Upload = function () {
                               isLastChunk: total === end + 1
                             });
 
-                          case 17:
+                          case 16:
                           case 'end':
                             return _context2.stop();
                         }
@@ -870,6 +870,7 @@ var UploadStream = function () {
                             _context.next = 3;
                             return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
+                                console.timeEnd('uploadChunk:put');
                                 console.log(progressEvent.loaded);
                                 opts.onProgress({
                                   totalBytes: start + chunk.byteLength,
@@ -883,11 +884,10 @@ var UploadStream = function () {
                           case 3:
                             res = _context.sent;
 
-                            console.timeEnd('uploadChunk:put');
 
                             checkResponseStatus(res, opts, [200, 201, 308]);
 
-                          case 6:
+                          case 5:
                           case 'end':
                             return _context.stop();
                         }

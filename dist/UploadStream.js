@@ -159,6 +159,7 @@ var UploadStream = function () {
                             _context.next = 3;
                             return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
+                                console.timeEnd('uploadChunk:put');
                                 console.log(progressEvent.loaded);
                                 opts.onProgress({
                                   totalBytes: start + chunk.byteLength,
@@ -172,11 +173,10 @@ var UploadStream = function () {
                           case 3:
                             res = _context.sent;
 
-                            console.timeEnd('uploadChunk:put');
 
                             checkResponseStatus(res, opts, [200, 201, 308]);
 
-                          case 6:
+                          case 5:
                           case 'end':
                             return _context.stop();
                         }
