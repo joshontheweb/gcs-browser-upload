@@ -172,7 +172,7 @@ var UploadStream = function () {
                           case 3:
                             res = _context.sent;
 
-                            console.time('uploadChunk:put');
+                            console.timeEnd('uploadChunk:put');
 
                             checkResponseStatus(res, opts, [200, 201, 308]);
 
