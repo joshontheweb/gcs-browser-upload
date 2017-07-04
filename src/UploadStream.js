@@ -106,7 +106,7 @@ export default class UploadStream {
             })
           }
         })
-        console.time('uploadChunk:put')
+        console.timeEnd('uploadChunk:put')
 
         checkResponseStatus(res, opts, [200, 201, 308])
       }, {retries: opts.backoffRetryLimit, minTimeout: opts.backoffMillis})
