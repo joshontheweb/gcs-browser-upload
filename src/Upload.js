@@ -94,7 +94,7 @@ export default class Upload {
       debug(` - Chunk length: ${chunk.byteLength}`)
       debug(` - Start: ${start}`)
       debug(` - End: ${end}`)
-
+      console.time('uploadChunk:put')
       const res = await safePut(opts.url, chunk, {
         headers, onUploadProgress: function (progressEvent) {
           opts.onProgress({
@@ -105,6 +105,7 @@ export default class Upload {
           })
         }
       })
+      console.timeEnd('uploadChunk:put')
 
       checkResponseStatus(res, opts, [200, 201, 308])
       debug(`Chunk upload succeeded, adding checksum ${checksum}`)

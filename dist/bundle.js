@@ -492,8 +492,8 @@ var Upload = function () {
                             (0, _debug2.default)(' - Chunk length: ' + chunk.byteLength);
                             (0, _debug2.default)(' - Start: ' + start);
                             (0, _debug2.default)(' - End: ' + end);
-
-                            _context2.next = 10;
+                            console.time('uploadChunk:put');
+                            _context2.next = 11;
                             return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
                                 opts.onProgress({
@@ -505,9 +505,10 @@ var Upload = function () {
                               }
                             });
 
-                          case 10:
+                          case 11:
                             res = _context2.sent;
 
+                            console.timeEnd('uploadChunk:put');
 
                             checkResponseStatus(res, opts, [200, 201, 308]);
                             (0, _debug2.default)('Chunk upload succeeded, adding checksum ' + checksum);
@@ -521,7 +522,7 @@ var Upload = function () {
                               isLastChunk: total === end + 1
                             });
 
-                          case 15:
+                          case 17:
                           case 'end':
                             return _context2.stop();
                         }
@@ -865,7 +866,8 @@ var UploadStream = function () {
                       while (1) {
                         switch (_context.prev = _context.next) {
                           case 0:
-                            _context.next = 2;
+                            console.time('uploadChunk:put');
+                            _context.next = 3;
                             return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
                                 console.log(progressEvent.loaded);
@@ -878,13 +880,14 @@ var UploadStream = function () {
                               }
                             });
 
-                          case 2:
+                          case 3:
                             res = _context.sent;
 
+                            console.time('uploadChunk:put');
 
                             checkResponseStatus(res, opts, [200, 201, 308]);
 
-                          case 4:
+                          case 6:
                           case 'end':
                             return _context.stop();
                         }
