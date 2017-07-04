@@ -97,6 +97,7 @@ export default class UploadStream {
         console.time('uploadChunk:put')
         const res = await safePut(opts.url, chunk, {
           headers, onUploadProgress: function (progressEvent) {
+            console.timeEnd('uploadChunk:put')
             console.log(progressEvent.loaded)
             opts.onProgress({
               totalBytes: start + chunk.byteLength,
@@ -106,7 +107,6 @@ export default class UploadStream {
             })
           }
         })
-        console.timeEnd('uploadChunk:put')
 
         checkResponseStatus(res, opts, [200, 201, 308])
       }, {retries: opts.backoffRetryLimit, minTimeout: opts.backoffMillis})
