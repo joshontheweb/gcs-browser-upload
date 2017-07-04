@@ -1,6 +1,6 @@
 {
   "name": "gcs-browser-upload-stream",
-  "version": "2.1.16",
+  "version": "2.1.17-beta",
   "lockfileVersion": 1,
   "dependencies": {
     "accepts": {
