@@ -30,9 +30,17 @@ class FileProcessor {
       }
 
       const start = index * chunkSize
+      console.time('processIndex:file.slice')
       const section = file.slice(start, start + chunkSize)
+      console.timeEnd('processIndex:file.slice')
+
+      console.time('processIndex:getData')
       const chunk = await getData(section)
+      console.timeEnd('processIndex:getData')
+
+      console.time('processIndex:getChecksum')
       const checksum = getChecksum(spark, chunk)
+      console.timeEnd('processIndex:getChecksum')
 
       const shouldContinue = await fn(checksum, index, chunk)
       if (shouldContinue !== false) {

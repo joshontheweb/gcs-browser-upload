@@ -122,28 +122,41 @@ var FileProcessor = function () {
 
                           case 6:
                             start = index * chunkSize;
+
+                            console.time('processIndex:file.slice');
                             section = file.slice(start, start + chunkSize);
-                            _context.next = 10;
+
+                            console.timeEnd('processIndex:file.slice');
+
+                            console.time('processIndex:getData');
+                            _context.next = 13;
                             return getData(section);
 
-                          case 10:
+                          case 13:
                             chunk = _context.sent;
+
+                            console.timeEnd('processIndex:getData');
+
+                            console.time('processIndex:getChecksum');
                             checksum = getChecksum(spark, chunk);
-                            _context.next = 14;
+
+                            console.timeEnd('processIndex:getChecksum');
+
+                            _context.next = 20;
                             return fn(checksum, index, chunk);
 
-                          case 14:
+                          case 20:
                             shouldContinue = _context.sent;
 
                             if (!(shouldContinue !== false)) {
-                              _context.next = 18;
+                              _context.next = 24;
                               break;
                             }
 
-                            _context.next = 18;
+                            _context.next = 24;
                             return processIndex(index + 1);
 
-                          case 18:
+                          case 24:
                           case 'end':
                             return _context.stop();
                         }

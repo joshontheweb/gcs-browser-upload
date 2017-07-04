@@ -70,7 +70,9 @@ export default class UploadStream {
       await this.waitForUnpause()
     }
 
+    console.time('getChecksum')
     const checksum = getChecksum(this.spark, chunk)
+    console.timeEnd('getChecksum')
 
     const contentRange = isLastChunk ? `bytes ${start}-${end}/${end + 1}` : `bytes ${start}-${end}/*`
 

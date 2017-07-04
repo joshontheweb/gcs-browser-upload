@@ -122,7 +122,12 @@ var UploadStream = function () {
                 return this.waitForUnpause();
 
               case 6:
+
+                console.time('getChecksum');
                 checksum = (0, _FileProcessor.getChecksum)(this.spark, chunk);
+
+                console.timeEnd('getChecksum');
+
                 contentRange = isLastChunk ? 'bytes ' + start + '-' + end + '/' + (end + 1) : 'bytes ' + start + '-' + end + '/*';
                 headers = {
                   'Content-Type': opts.contentType,
@@ -141,8 +146,8 @@ var UploadStream = function () {
                 //   throw new UploadUnableToRecoverError()
                 // }
 
-                _context2.prev = 15;
-                _context2.next = 18;
+                _context2.prev = 17;
+                _context2.next = 20;
                 return (0, _asyncRetry2.default)(function () {
                   var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(bail, num) {
                     var res;
@@ -182,16 +187,16 @@ var UploadStream = function () {
                   };
                 }(), { retries: opts.backoffRetryLimit, minTimeout: opts.backoffMillis });
 
-              case 18:
-                _context2.next = 23;
+              case 20:
+                _context2.next = 25;
                 break;
 
-              case 20:
-                _context2.prev = 20;
-                _context2.t0 = _context2['catch'](15);
+              case 22:
+                _context2.prev = 22;
+                _context2.t0 = _context2['catch'](17);
                 throw new _errors.UploadUnableToRecoverError();
 
-              case 23:
+              case 25:
 
                 (0, _debug2.default)('Chunk upload succeeded, adding checksum ' + checksum);
                 meta.addChecksum(index, checksum);
@@ -203,12 +208,12 @@ var UploadStream = function () {
                   isLastChunk: isLastChunk
                 });
 
-              case 26:
+              case 28:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[15, 20]]);
+        }, _callee2, this, [[17, 22]]);
       }));
 
       function uploadChunk(_x, _x2) {
