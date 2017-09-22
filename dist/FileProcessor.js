@@ -30,7 +30,7 @@ var getData = exports.getData = function () {
             return _context3.abrupt('return', new _es6Promise.Promise(function (resolve, reject) {
               var reader = new window.FileReader();
               reader.onload = function () {
-                return resolve(reader.result);
+                return resolve(reader.result.buffer ? reader.result.buffer : reader.result);
               };
               reader.onerror = reject;
               reader.readAsArrayBuffer(blob);
@@ -50,6 +50,7 @@ var getData = exports.getData = function () {
 }();
 
 exports.getChecksum = getChecksum;
+exports.mergeArrayBuffers = mergeArrayBuffers;
 
 var _es6Promise = require('es6-promise');
 
@@ -211,11 +212,21 @@ var FileProcessor = function () {
 }();
 
 function getChecksum(spark, chunk) {
-  spark.append(chunk);
+  // just grab the ends of the chunk for comparison.  Was running into major performance issues with big wav files
+  var endsBuffer = mergeArrayBuffers(chunk.slice(0, 20), chunk.slice(chunk.byteLength - 20, chunk.byteLength));
+  spark.append(endsBuffer);
+  // spark.append(chunk)
   var state = spark.getState();
   var checksum = spark.end();
   spark.setState(state);
   return checksum;
+}
+
+function mergeArrayBuffers(a, b) {
+  var tmp = new Uint8Array(a.byteLength + b.byteLength);
+  tmp.set(new Uint8Array(a), 0);
+  tmp.set(new Uint8Array(b), a.byteLength);
+  return tmp.buffer;
 }
 
 exports.default = FileProcessor;

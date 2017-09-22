@@ -69,7 +69,10 @@ class FileProcessor {
 }
 
 export function getChecksum (spark, chunk) {
-  spark.append(chunk)
+  // just grab the ends of the chunk for comparison.  Was running into major performance issues with big wav files
+  var endsBuffer = mergeArrayBuffers(chunk.slice(0, 20), chunk.slice(chunk.byteLength - 20, chunk.byteLength))
+  spark.append(endsBuffer)
+  // spark.append(chunk)
   const state = spark.getState()
   const checksum = spark.end()
   spark.setState(state)
@@ -79,10 +82,17 @@ export function getChecksum (spark, chunk) {
 export async function getData (blob) {
   return new Promise((resolve, reject) => {
     let reader = new window.FileReader()
-    reader.onload = () => resolve(reader.result)
+    reader.onload = () => resolve(reader.result.buffer ? reader.result.buffer : reader.result)
     reader.onerror = reject
     reader.readAsArrayBuffer(blob)
   })
+}
+
+export function mergeArrayBuffers (a, b) {
+  var tmp = new Uint8Array(a.byteLength + b.byteLength)
+  tmp.set(new Uint8Array(a), 0)
+  tmp.set(new Uint8Array(b), a.byteLength)
+  return tmp.buffer
 }
 
 export default FileProcessor

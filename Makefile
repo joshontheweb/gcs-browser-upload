@@ -10,7 +10,7 @@ bootstrap:
 lint:
 	@$(BIN)/standard
 
-test: lint
+test:
 	@NODE_ENV=test $(BIN)/mocha $(TESTS)
 
 test-watch:
