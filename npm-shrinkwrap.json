@@ -1,6 +1,6 @@
 {
   "name": "gcs-browser-upload-stream",
-  "version": "2.1.21-beta",
+  "version": "2.1.22-beta",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -3578,6 +3578,11 @@
         "source-map": "0.5.6"
       }
     },
+    "inline-worker": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/inline-worker/-/inline-worker-1.1.0.tgz",
+      "integrity": "sha1-VelvVJFaZCsAhyotqm/oMrQkyY0="
+    },
     "inquirer": {
       "version": "0.12.0",
       "resolved": "https://registry.npmjs.org/inquirer/-/inquirer-0.12.0.tgz",
@@ -5769,6 +5774,12 @@
         "through2": "2.0.3",
         "xtend": "4.0.1"
       }
+    },
+    "webworker": {
+      "version": "0.8.4",
+      "resolved": "https://registry.npmjs.org/webworker/-/webworker-0.8.4.tgz",
+      "integrity": "sha1-ZK8+i1700nfaK29CQu0Yz64zioQ=",
+      "dev": true
     },
     "which-module": {
       "version": "1.0.0",

@@ -50,13 +50,15 @@
     "releasy": "^1.7.3",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "standard": "^6.0.8"
+    "standard": "^6.0.8",
+    "webworker": "^0.8.4"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "debug": "^2.2.0",
     "es6-error": "^2.1.0",
     "es6-promise": "^3.1.2",
+    "inline-worker": "^1.1.0",
     "spark-md5": "^2.0.2",
     "uglify-js": "^3.0.20",
     "watchify": "^3.9.0"

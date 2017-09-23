@@ -1,6 +1,16 @@
 import { Promise } from 'es6-promise'
 import SparkMD5 from 'spark-md5'
 import debug from './debug'
+import InlineWorker from 'inline-worker'
+
+const fileSliceWorker = new InlineWorker(function (self) {
+  self.onmessage = function (e) {
+    let start = e.data.start
+    let end = e.data.end
+    let file = e.data.file
+    self.postMessage(file.slice(start, end))
+  }
+}, {})
 
 class FileProcessor {
   constructor (file, chunkSize) {
@@ -8,6 +18,12 @@ class FileProcessor {
     this.file = file
     this.chunkSize = chunkSize
     this.unpauseHandlers = []
+  }
+
+  async sliceFile (file, start, end) {
+    fileSliceWorker.postMessage({file: file, start: start, end: end}, [file])
+    debug('awaiting slice')
+    return new Promise((resolve) => { fileSliceWorker.onmessage = (e) => resolve(e.data) })
   }
 
   async run (fn, startIndex = 0, endIndex) {
@@ -31,7 +47,7 @@ class FileProcessor {
 
       const start = index * chunkSize
       console.time('processIndex:file.slice')
-      const section = file.slice(start, start + chunkSize)
+      const section = await this.sliceFile(file, start, start + chunkSize)
       console.timeEnd('processIndex:file.slice')
 
       console.time('processIndex:getData')

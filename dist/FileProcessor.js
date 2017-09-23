@@ -22,12 +22,12 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 var _createClass3 = _interopRequireDefault(_createClass2);
 
 var getData = exports.getData = function () {
-  var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(blob) {
-    return _regenerator2.default.wrap(function _callee3$(_context3) {
+  var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(blob) {
+    return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            return _context3.abrupt('return', new _es6Promise.Promise(function (resolve, reject) {
+            return _context4.abrupt('return', new _es6Promise.Promise(function (resolve, reject) {
               var reader = new window.FileReader();
               reader.onload = function () {
                 return resolve(reader.result.buffer ? reader.result.buffer : reader.result);
@@ -38,14 +38,14 @@ var getData = exports.getData = function () {
 
           case 1:
           case 'end':
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, this);
+    }, _callee4, this);
   }));
 
-  return function getData(_x4) {
-    return _ref3.apply(this, arguments);
+  return function getData(_x7) {
+    return _ref4.apply(this, arguments);
   };
 }();
 
@@ -62,7 +62,20 @@ var _debug = require('./debug');
 
 var _debug2 = _interopRequireDefault(_debug);
 
+var _inlineWorker = require('inline-worker');
+
+var _inlineWorker2 = _interopRequireDefault(_inlineWorker);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fileSliceWorker = new _inlineWorker2.default(function (self) {
+  self.onmessage = function (e) {
+    var start = e.data.start;
+    var end = e.data.end;
+    var file = e.data.file;
+    self.postMessage(file.slice(start, end));
+  };
+}, {});
 
 var FileProcessor = function () {
   function FileProcessor(file, chunkSize) {
@@ -75,17 +88,47 @@ var FileProcessor = function () {
   }
 
   (0, _createClass3.default)(FileProcessor, [{
+    key: 'sliceFile',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(file, start, end) {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                fileSliceWorker.postMessage({ file: file, start: start, end: end }, [file]);
+                (0, _debug2.default)('awaiting slice');
+                return _context.abrupt('return', new _es6Promise.Promise(function (resolve) {
+                  fileSliceWorker.onmessage = function (e) {
+                    return resolve(e.data);
+                  };
+                }));
+
+              case 3:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function sliceFile(_x, _x2, _x3) {
+        return _ref.apply(this, arguments);
+      }
+
+      return sliceFile;
+    }()
+  }, {
     key: 'run',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(fn) {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(fn) {
         var _this = this;
 
         var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
         var endIndex = arguments[2];
         var file, chunkSize, totalChunks, spark, processIndex, waitForUnpause;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 file = this.file, chunkSize = this.chunkSize;
                 totalChunks = Math.ceil(file.size / chunkSize);
@@ -98,43 +141,47 @@ var FileProcessor = function () {
                 (0, _debug2.default)(' - End index: ' + (endIndex || totalChunks));
 
                 processIndex = function () {
-                  var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(index) {
+                  var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(index) {
                     var start, section, chunk, checksum, shouldContinue;
-                    return _regenerator2.default.wrap(function _callee$(_context) {
+                    return _regenerator2.default.wrap(function _callee2$(_context2) {
                       while (1) {
-                        switch (_context.prev = _context.next) {
+                        switch (_context2.prev = _context2.next) {
                           case 0:
                             if (!(index === totalChunks || index === endIndex)) {
-                              _context.next = 3;
+                              _context2.next = 3;
                               break;
                             }
 
                             (0, _debug2.default)('File process complete');
-                            return _context.abrupt('return');
+                            return _context2.abrupt('return');
 
                           case 3:
                             if (!_this.paused) {
-                              _context.next = 6;
+                              _context2.next = 6;
                               break;
                             }
 
-                            _context.next = 6;
+                            _context2.next = 6;
                             return waitForUnpause();
 
                           case 6:
                             start = index * chunkSize;
 
                             console.time('processIndex:file.slice');
-                            section = file.slice(start, start + chunkSize);
+                            _context2.next = 10;
+                            return _this.sliceFile(file, start, start + chunkSize);
+
+                          case 10:
+                            section = _context2.sent;
 
                             console.timeEnd('processIndex:file.slice');
 
                             console.time('processIndex:getData');
-                            _context.next = 13;
+                            _context2.next = 15;
                             return getData(section);
 
-                          case 13:
-                            chunk = _context.sent;
+                          case 15:
+                            chunk = _context2.sent;
 
                             console.timeEnd('processIndex:getData');
 
@@ -143,30 +190,30 @@ var FileProcessor = function () {
 
                             console.timeEnd('processIndex:getChecksum');
 
-                            _context.next = 20;
+                            _context2.next = 22;
                             return fn(checksum, index, chunk);
 
-                          case 20:
-                            shouldContinue = _context.sent;
+                          case 22:
+                            shouldContinue = _context2.sent;
 
                             if (!(shouldContinue !== false)) {
-                              _context.next = 24;
+                              _context2.next = 26;
                               break;
                             }
 
-                            _context.next = 24;
+                            _context2.next = 26;
                             return processIndex(index + 1);
 
-                          case 24:
+                          case 26:
                           case 'end':
-                            return _context.stop();
+                            return _context2.stop();
                         }
                       }
-                    }, _callee, _this);
+                    }, _callee2, _this);
                   }));
 
-                  return function processIndex(_x3) {
-                    return _ref2.apply(this, arguments);
+                  return function processIndex(_x6) {
+                    return _ref3.apply(this, arguments);
                   };
                 }();
 
@@ -176,19 +223,19 @@ var FileProcessor = function () {
                   });
                 };
 
-                _context2.next = 11;
+                _context3.next = 11;
                 return processIndex(startIndex);
 
               case 11:
               case 'end':
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
-      function run(_x) {
-        return _ref.apply(this, arguments);
+      function run(_x4) {
+        return _ref2.apply(this, arguments);
       }
 
       return run;

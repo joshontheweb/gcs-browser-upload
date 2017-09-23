@@ -1,29 +1,32 @@
-import axios from 'axios'
+/* globals Worker */
+
+
+// import axios from 'axios'
 import debug from './debug'
 
-// axios.create({
-//   maxRedirects: 0
-// })
+let requestWorker = new Worker('/media/scripts/workers/request-worker.js')
 
-axios.defaults.maxRedirects = 0
+export async function safePut (url, chunk, options) {
+  return new Promise(function (resolve, reject) {
+    requestWorker.addEventListener('message', function (e) {
+      if (res.type === 'success') {
+        var res = e.data
+        debug(`'PUT' request response status: ${res.status}`)
+        debug(`'PUT' request response headers: ${JSON.stringify(res.headers)}`)
+        debug(`'PUT' request response body: ${res.data}`)
+        resolve(res)
+      } else {
+        debug(`'PUT' error response status: ${res.status}`)
+        debug(`'PUT' error response headers: ${JSON.stringify(res.headers)}`)
+        debug(`'PUT' error response body: ${res.data}`)
+        reject(res)
+      }
+    }, false)
 
-export async function safePut () {
-  try {
-    var res = await axios.put.apply(null, arguments)
-    debug(`'PUT' request response status: ${res.status}`)
-    debug(`'PUT' request response headers: ${JSON.stringify(res.headers)}`)
-    debug(`'PUT' request response body: ${res.data}`)
-    return res
-  } catch (e) {
-    // if (e instanceof Error) {
-    //   console.log(e.response.status, e.response.statusText, e.response.headers)
-    //   throw e
-    // } else {
-    // console.log(e.response.status, e.response.statusText, e.response.headers)
-    debug(`'PUT' error response status: ${e.response.status}`)
-    debug(`'PUT' error response headers: ${JSON.stringify(e.response.headers)}`)
-    debug(`'PUT' error response body: ${e.response.data}`)
-    return e.response
-    // }
-  }
+    requestWorker.postMessage(Object.extend({
+      type: 'PUT',
+      url: url,
+      data: chunk
+    }, options))
+  })
 }
