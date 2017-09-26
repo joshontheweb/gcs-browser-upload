@@ -1,4 +1,3 @@
-import axios from 'axios'
 import express from 'express'
 import getPort from 'get-port'
 import pify from 'pify'
@@ -12,6 +11,8 @@ const router = new express.Router()
 router.use(bodyParser.text())
 
 router.use((req, res, next) => {
+  console.log('SERVER REQUEST HEADERS: ')
+  console.log(req.headers)
   const range = req.headers['content-range']
   const matchKnown = range.match(/^bytes (\d+?)-(\d+?)\/(\d+?)$/)
   const matchUnknownRange = range.match(/^bytes \*\/(\d+?)$/)
@@ -79,6 +80,7 @@ router.put('/', (req, res) => {
 })
 
 router.put('/fail', (req, res) => {
+  console.log('====FAIL=====')
   res.status(500).send('Internal Server Error')
 })
 
@@ -87,7 +89,7 @@ export async function start () {
   const app = express()
   app.use('/file', router)
   server = await pify(::app.listen)(port)
-  axios.defaults.baseURL = `http://localhost:${port}/`
+  return `http://localhost:${port}/`
 }
 
 export function resetServer () {
