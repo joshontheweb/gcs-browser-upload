@@ -22,13 +22,13 @@ describe('Functional', () => {
   let requests = []
   let chunkSize = 256
 
-  async function doUpload (length, url) {
+  async function doUpload (length, path) {
     if (length !== null) {
       file = randomString({ length })
     }
     upload = new Upload({
       id: 'foo',
-      url: url || resolve(baseUrl, '/file'),
+      url: resolve(baseUrl, path || '/file'),
       chunkSize: chunkSize,
       file: makeFile(file),
       onProgress: console.log.bind(this)
@@ -38,7 +38,7 @@ describe('Functional', () => {
     return upload
   }
 
-  async function doStreamUpload (length, url, pauseOnChunk) {
+  async function doStreamUpload (length, path, pauseOnChunk) {
     if (length !== null) {
       file = randomString({ length })
     }
@@ -47,7 +47,7 @@ describe('Functional', () => {
 
     upload = new UploadStream({
       id: 'foo',
-      url: url || resolve(baseUrl, '/file'),
+      url: resolve(baseUrl, path || '/file'),
       chunkSize: chunkSize,
       backoffMillis: 100,
       backoffRetryLimit: 5,
@@ -321,40 +321,38 @@ describe('Functional', () => {
     })
   })
 
-  // describe('a streaming upload that results in a temporary server error', () => {
-  //   after(reset)
-  //
-  //   it('should retry until successful', async () => {
-  //     doStreamUpload(256, '/file/fail')
-  //     await waitFor(() => {
-  //       requests = getRequests()
-  //       // console.log(requests)
-  //       return requests.length > 2
-  //     })
-  //     // fix url so it completes
-  //     upload.opts.url = '/file'
-  //     await waitFor(() => {
-  //       requests = getRequests()
-  //       // console.log(requests)
-  //       return requests.length > 3
-  //     })
-  //     expect(requests).to.have.length(4)
-  //     expect(requests[3].body).to.equal(file.substring(0, 256))
-  //   })
-  // })
-  //
-  // describe('a streaming upload that results in long-lived server error', () => {
-  //   after(reset)
-  //
-  //   it('should retry until hitting backoff limit and fail with error', async () => {
-  //     let error
-  //     try {
-  //       await doStreamUpload(256, '/file/fail')
-  //     } catch (err) {
-  //       error = err
-  //     }
-  //
-  //     expect(error).to.be.instanceof(UploadStream.errors.UploadUnableToRecoverError)
-  //   })
-  // })
+  describe('a streaming upload that results in a temporary server error', () => {
+    after(reset)
+
+    it('should retry until successful', async () => {
+      doStreamUpload(256, '/file/fail')
+      await waitFor(() => {
+        requests = getRequests()
+        return requests.length > 2
+      })
+      // fix url so it completes
+      upload.opts.url = resolve(baseUrl, '/file')
+      await waitFor(() => {
+        requests = getRequests()
+        return requests.length > 3
+      })
+      expect(requests).to.have.length(4)
+      expect(requests[3].body).to.equal(file.substring(0, 256))
+    })
+  })
+
+  describe('a streaming upload that results in long-lived server error', () => {
+    after(reset)
+
+    it('should retry until hitting backoff limit and fail with error', async () => {
+      let error
+      try {
+        await doStreamUpload(256, '/file/fail')
+      } catch (err) {
+        error = err
+      }
+
+      expect(error).to.be.instanceof(UploadStream.errors.UploadUnableToRecoverError)
+    })
+  })
 })

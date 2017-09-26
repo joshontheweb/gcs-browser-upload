@@ -35,7 +35,7 @@ export class UploadFailedError extends ExtendableError {
 
 export class UploadUnableToRecoverError extends ExtendableError {
   constructor () {
-    super('The upload what unable to recover after trying restricted exponention backoff')
+    super('The upload was unable to recover after trying restricted exponention backoff')
   }
 }
 

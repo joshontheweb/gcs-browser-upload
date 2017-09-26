@@ -89,7 +89,7 @@ var UploadUnableToRecoverError = exports.UploadUnableToRecoverError = function (
 
   function UploadUnableToRecoverError() {
     (0, _classCallCheck3.default)(this, UploadUnableToRecoverError);
-    return (0, _possibleConstructorReturn3.default)(this, (UploadUnableToRecoverError.__proto__ || Object.getPrototypeOf(UploadUnableToRecoverError)).call(this, 'The upload what unable to recover after trying restricted exponention backoff'));
+    return (0, _possibleConstructorReturn3.default)(this, (UploadUnableToRecoverError.__proto__ || Object.getPrototypeOf(UploadUnableToRecoverError)).call(this, 'The upload was unable to recover after trying restricted exponention backoff'));
   }
 
   return UploadUnableToRecoverError;
