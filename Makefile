@@ -18,8 +18,9 @@ test-watch:
 
 compile:
 	NODE_ENV=production $(BIN)/babel src --out-dir dist --copy-files
-	$(BIN)/browserify --standalone upload dist/index.js | $(BIN)/derequire > dist/bundle.js
-	$(BIN)/babel --plugins transform-es2015-block-scoping dist/bundle.js > dist/bundle.js
+	$(BIN)/browserify --standalone upload dist/index.js | $(BIN)/derequire > dist/derequired.js
+	$(BIN)/babel --plugins transform-es2015-block-scoping dist/derequired.js > dist/bundle.js
+	rm dist/derequired.js
 
 compile-watch:
 	NODE_ENV=production $(BIN)/babel -w src --out-dir dist --copy-file &
