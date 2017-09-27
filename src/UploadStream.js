@@ -94,6 +94,10 @@ export default class UploadStream {
 
     try {
       await retry(async (bail, num) => {
+        // if in browser, upload blobs or else the browser can hang/crash on large ArrayBuffer uploads (150mb+)
+        if (typeof window.Blob !== 'undefined') {
+          chunk = new Blob([chunk])
+        }
         console.time('uploadChunk:put')
         const res = await safePut(opts.url, chunk, {
           headers, onUploadProgress: function (progressEvent) {

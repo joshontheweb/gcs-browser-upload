@@ -176,11 +176,14 @@ var Upload = function () {
                             (0, _debug2.default)(' - Chunk length: ' + chunk.byteLength);
                             (0, _debug2.default)(' - Start: ' + start);
                             (0, _debug2.default)(' - End: ' + end);
-                            console.time('uploadChunk:put');
+
+                            // if in browser, upload blobs or else the browser can hang/crash on large ArrayBuffer uploads (150mb+)
+                            if (typeof window.Blob !== 'undefined') {
+                              chunk = new Blob([chunk]);
+                            }
                             _context2.next = 11;
                             return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
-                                console.timeEnd('uploadChunk:put');
                                 opts.onProgress({
                                   totalBytes: total,
                                   uploadedBytes: start + progressEvent.loaded,
@@ -360,6 +363,7 @@ var Upload = function () {
 }();
 
 Upload.errors = errors;
+Upload.safePut = _http.safePut;
 exports.default = Upload;
 
 

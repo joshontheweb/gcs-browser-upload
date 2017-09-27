@@ -155,8 +155,12 @@ var UploadStream = function () {
                       while (1) {
                         switch (_context.prev = _context.next) {
                           case 0:
+                            // if in browser, upload blobs or else the browser can hang/crash on large ArrayBuffer uploads (150mb+)
+                            if (typeof window.Blob !== 'undefined') {
+                              chunk = new Blob([chunk]);
+                            }
                             console.time('uploadChunk:put');
-                            _context.next = 3;
+                            _context.next = 4;
                             return (0, _http.safePut)(opts.url, chunk, {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
                                 console.timeEnd('uploadChunk:put');
@@ -170,13 +174,13 @@ var UploadStream = function () {
                               }
                             });
 
-                          case 3:
+                          case 4:
                             res = _context.sent;
 
 
                             checkResponseStatus(res, opts, [200, 201, 308]);
 
-                          case 5:
+                          case 6:
                           case 'end':
                             return _context.stop();
                         }

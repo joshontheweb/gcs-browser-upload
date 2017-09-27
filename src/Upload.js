@@ -52,6 +52,8 @@ export default class Upload {
     this.processor = new FileProcessor(opts.file, opts.chunkSize)
   }
 
+  static safePut = safePut
+
   async start () {
     const { meta, processor, opts, finished } = this
 
@@ -87,17 +89,20 @@ export default class Upload {
 
       const headers = {
         'Content-Type': opts.contentType,
-        'Content-Range': `bytes ${start}-${end}/${total}`
+        'Content-Range': `bytes ${start}-${end}/${total}`,
       }
 
       debug(`Uploading chunk ${index}:`)
       debug(` - Chunk length: ${chunk.byteLength}`)
       debug(` - Start: ${start}`)
       debug(` - End: ${end}`)
-      console.time('uploadChunk:put')
+
+      // if in browser, upload blobs or else the browser can hang/crash on large ArrayBuffer uploads (150mb+)
+      if (typeof window.Blob !== 'undefined') {
+        chunk = new Blob([chunk])
+      }
       const res = await safePut(opts.url, chunk, {
         headers, onUploadProgress: function (progressEvent) {
-        console.timeEnd('uploadChunk:put')
           opts.onProgress({
             totalBytes: total,
             uploadedBytes: start + progressEvent.loaded,
