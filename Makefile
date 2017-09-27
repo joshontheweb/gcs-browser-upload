@@ -19,6 +19,7 @@ test-watch:
 compile:
 	NODE_ENV=production $(BIN)/babel src --out-dir dist --copy-files
 	$(BIN)/browserify --standalone upload dist/index.js | $(BIN)/derequire > dist/bundle.js
+	cp dist/* ../gcs-browser-upload-dist
 
 compile-watch:
 	NODE_ENV=production $(BIN)/babel -w src --out-dir dist --copy-file &
