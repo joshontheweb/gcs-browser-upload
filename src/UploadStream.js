@@ -103,11 +103,12 @@ export default class UploadStream {
           headers, onUploadProgress: function (progressEvent) {
             console.timeEnd('uploadChunk:put')
             console.log(progressEvent.loaded)
+            var chunkSize = (chunk.byteLength || chunk.size)
             opts.onProgress({
-              totalBytes: start + chunk.byteLength,
+              totalBytes: start + chunkSize,
               uploadedBytes: start + progressEvent.loaded,
               chunkIndex: index,
-              chunkLength: chunk.byteLength
+              chunkLength: chunkSize
             })
           }
         })
@@ -115,6 +116,7 @@ export default class UploadStream {
         checkResponseStatus(res, opts, [200, 201, 308])
       }, {retries: opts.backoffRetryLimit, minTimeout: opts.backoffMillis})
     } catch (err) {
+      opts.onChunkUploadFail({chunkIndex: index})
       throw new UploadUnableToRecoverError()
     }
 
@@ -124,7 +126,7 @@ export default class UploadStream {
     opts.onChunkUpload({
       uploadedBytes: end + 1,
       chunkIndex: index,
-      chunkLength: chunk.byteLength,
+      chunkLength: chunk.byteLength || chunk.size,
       isLastChunk: isLastChunk
     })
   }

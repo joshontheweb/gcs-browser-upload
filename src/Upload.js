@@ -107,7 +107,7 @@ export default class Upload {
             totalBytes: total,
             uploadedBytes: start + progressEvent.loaded,
             chunkIndex: index,
-            chunkLength: chunk.byteLength
+            chunkLength: chunk.byteLength || chunk.size
           })
         }
       })
@@ -120,7 +120,7 @@ export default class Upload {
         totalBytes: total,
         uploadedBytes: end + 1,
         chunkIndex: index,
-        chunkLength: chunk.byteLength,
+        chunkLength: chunk.byteLength || chunk.size,
         isLastChunk: total === end + 1
       })
     }

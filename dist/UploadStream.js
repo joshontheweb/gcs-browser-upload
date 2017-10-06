@@ -165,11 +165,12 @@ var UploadStream = function () {
                               headers: headers, onUploadProgress: function onUploadProgress(progressEvent) {
                                 console.timeEnd('uploadChunk:put');
                                 console.log(progressEvent.loaded);
+                                var chunkSize = chunk.byteLength || chunk.size;
                                 opts.onProgress({
-                                  totalBytes: start + chunk.byteLength,
+                                  totalBytes: start + chunkSize,
                                   uploadedBytes: start + progressEvent.loaded,
                                   chunkIndex: index,
-                                  chunkLength: chunk.byteLength
+                                  chunkLength: chunkSize
                                 });
                               }
                             });
@@ -194,15 +195,17 @@ var UploadStream = function () {
                 }(), { retries: opts.backoffRetryLimit, minTimeout: opts.backoffMillis });
 
               case 20:
-                _context2.next = 25;
+                _context2.next = 26;
                 break;
 
               case 22:
                 _context2.prev = 22;
                 _context2.t0 = _context2['catch'](17);
+
+                opts.onChunkUploadFail({ chunkIndex: index });
                 throw new _errors.UploadUnableToRecoverError();
 
-              case 25:
+              case 26:
 
                 (0, _debug2.default)('Chunk upload succeeded, adding checksum ' + checksum);
                 meta.addChecksum(index, checksum);
@@ -210,11 +213,11 @@ var UploadStream = function () {
                 opts.onChunkUpload({
                   uploadedBytes: end + 1,
                   chunkIndex: index,
-                  chunkLength: chunk.byteLength,
+                  chunkLength: chunk.byteLength || chunk.size,
                   isLastChunk: isLastChunk
                 });
 
-              case 28:
+              case 29:
               case 'end':
                 return _context2.stop();
             }
