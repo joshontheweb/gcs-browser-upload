@@ -790,7 +790,7 @@ var UploadStream = function () {
 
     var opts = (0, _extends3.default)({
       chunkSize: MIN_CHUNK_SIZE,
-      storage: window.localStorage,
+      storage: args.storage,
       contentType: 'text/plain',
       onChunkUpload: function onChunkUpload() {},
       onProgress: function onProgress() {},
@@ -882,7 +882,7 @@ var UploadStream = function () {
                         switch (_context.prev = _context.next) {
                           case 0:
                             // if in browser, upload blobs or else the browser can hang/crash on large ArrayBuffer uploads (150mb+)
-                            if (typeof window.Blob !== 'undefined') {
+                            if (typeof self.Blob !== 'undefined') {
                               chunk = new Blob([chunk]);
                             }
                             console.time('uploadChunk:put');

@@ -28,7 +28,7 @@ export default class UploadStream {
 
     var opts = {
       chunkSize: MIN_CHUNK_SIZE,
-      storage: window.localStorage,
+      storage: args.storage,
       contentType: 'text/plain',
       onChunkUpload: () => {},
       onProgress: () => {},
@@ -93,9 +93,9 @@ export default class UploadStream {
     // }
 
     try {
-      await retry(async (bail, num) => {
+      await retry((async) (bail, num) => {
         // if in browser, upload blobs or else the browser can hang/crash on large ArrayBuffer uploads (150mb+)
-        if (typeof window.Blob !== 'undefined') {
+        if (typeof self.Blob !== 'undefined') {
           chunk = new Blob([chunk])
         }
         console.time('uploadChunk:put')
