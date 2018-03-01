@@ -23,7 +23,7 @@ export default class Upload {
   constructor (args, allowSmallChunks) {
     var opts = {
       chunkSize: MIN_CHUNK_SIZE,
-      storage: window.localStorage,
+      storage: args.storage,
       contentType: 'text/plain',
       onChunkUpload: () => {},
       onProgress: () => {},
@@ -98,7 +98,7 @@ export default class Upload {
       debug(` - End: ${end}`)
 
       // if in browser, upload blobs or else the browser can hang/crash on large ArrayBuffer uploads (150mb+)
-      if (typeof window.Blob !== 'undefined') {
+      if (typeof self.Blob !== 'undefined') {
         chunk = new Blob([chunk])
       }
       const res = await safePut(opts.url, chunk, {

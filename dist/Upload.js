@@ -54,7 +54,7 @@ var Upload = function () {
 
     var opts = (0, _extends3.default)({
       chunkSize: MIN_CHUNK_SIZE,
-      storage: window.localStorage,
+      storage: args.storage,
       contentType: 'text/plain',
       onChunkUpload: function onChunkUpload() {},
       onProgress: function onProgress() {},
@@ -178,7 +178,7 @@ var Upload = function () {
                             (0, _debug2.default)(' - End: ' + end);
 
                             // if in browser, upload blobs or else the browser can hang/crash on large ArrayBuffer uploads (150mb+)
-                            if (typeof window.Blob !== 'undefined') {
+                            if (typeof self.Blob !== 'undefined') {
                               chunk = new Blob([chunk]);
                             }
                             _context2.next = 11;
