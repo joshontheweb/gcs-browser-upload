@@ -81,7 +81,7 @@ export function getChecksum (spark, chunk) {
 
 export async function getData (blob) {
   return new Promise((resolve, reject) => {
-    let reader = new window.FileReader()
+    let reader = new self.FileReader()
     reader.onload = () => resolve(reader.result.buffer ? reader.result.buffer : reader.result)
     reader.onerror = reject
     reader.readAsArrayBuffer(blob)

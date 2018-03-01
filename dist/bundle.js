@@ -122,7 +122,7 @@ var getData = exports.getData = function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             return _context3.abrupt('return', new _es6Promise.Promise(function (resolve, reject) {
-              var reader = new window.FileReader();
+              var reader = new self.FileReader();
               reader.onload = function () {
                 return resolve(reader.result.buffer ? reader.result.buffer : reader.result);
               };
