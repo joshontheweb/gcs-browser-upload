@@ -1273,13 +1273,14 @@ var safePut = exports.safePut = function () {
           case 3:
             res = _context.sent;
 
-            (0, _debug2.default)('\'PUT\' request response status: ' + res.status);
-            (0, _debug2.default)('\'PUT\' request response headers: ' + JSON.stringify(res.headers));
-            (0, _debug2.default)('\'PUT\' request response body: ' + res.data);
+            (0, _debug2.default)('\'PUT\' request response: ' + res);
+            // debug(`'PUT' request response status: ${res.status}`)
+            // debug(`'PUT' request response headers: ${JSON.stringify(res.headers)}`)
+            // debug(`'PUT' request response body: ${res.data}`)
             return _context.abrupt('return', res);
 
-          case 10:
-            _context.prev = 10;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context['catch'](0);
 
             // if (e instanceof Error) {
@@ -1287,17 +1288,18 @@ var safePut = exports.safePut = function () {
             //   throw e
             // } else {
             // console.log(e.response.status, e.response.statusText, e.response.headers)
-            (0, _debug2.default)('\'PUT\' error response status: ' + _context.t0.response.status);
-            (0, _debug2.default)('\'PUT\' error response headers: ' + JSON.stringify(_context.t0.response.headers));
-            (0, _debug2.default)('\'PUT\' error response body: ' + _context.t0.response.data);
+            (0, _debug2.default)('\'PUT\' error request response: ' + _context.t0.response);
+            // debug(`'PUT' error response status: ${e.response.status}`)
+            // debug(`'PUT' error response headers: ${JSON.stringify(e.response.headers)}`)
+            // debug(`'PUT' error response body: ${e.response.data}`)
             return _context.abrupt('return', _context.t0.response);
 
-          case 16:
+          case 12:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[0, 10]]);
+    }, _callee, this, [[0, 8]]);
   }));
 
   return function safePut() {
