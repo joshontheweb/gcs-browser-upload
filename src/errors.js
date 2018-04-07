@@ -42,6 +42,7 @@ export class UploadUnableToRecoverError extends ExtendableError {
 export class UnknownResponseError extends ExtendableError {
   constructor (res) {
     super('Unknown response received from GCS')
+    console.log('Unknown response res: ', res)
     this.res = res
   }
 }

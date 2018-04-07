@@ -1192,6 +1192,7 @@ var UnknownResponseError = exports.UnknownResponseError = function (_ExtendableE
 
     var _this7 = (0, _possibleConstructorReturn3.default)(this, (UnknownResponseError.__proto__ || Object.getPrototypeOf(UnknownResponseError)).call(this, 'Unknown response received from GCS'));
 
+    console.log('Unknown response res: ', res);
     _this7.res = res;
     return _this7;
   }
