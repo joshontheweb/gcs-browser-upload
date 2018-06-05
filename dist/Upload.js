@@ -255,33 +255,38 @@ var Upload = function () {
 
                 getRemoteResumeIndex = function () {
                   var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-                    var headers, res, header, range, bytesReceived;
+                    var bytesReceived, headers, res, rangeHeader, range;
                     return _regenerator2.default.wrap(function _callee4$(_context4) {
                       while (1) {
                         switch (_context4.prev = _context4.next) {
                           case 0:
+                            bytesReceived = 0;
                             headers = {
                               'Content-Range': 'bytes */' + opts.file.size,
                               'Content-Type': opts.contentType
                             };
 
                             (0, _debug2.default)('Retrieving upload status from GCS');
-                            _context4.next = 4;
+                            _context4.next = 5;
                             return (0, _http.safePut)(opts.url, null, { headers: headers });
 
-                          case 4:
+                          case 5:
                             res = _context4.sent;
 
 
                             checkResponseStatus(res, opts, [308]);
-                            header = res.headers['range'];
+                            rangeHeader = res.headers['range'];
 
-                            (0, _debug2.default)('Received upload status from GCS: ' + header);
-                            range = header.match(/(\d+?)-(\d+?)$/);
-                            bytesReceived = parseInt(range[2]) + 1;
+                            if (rangeHeader) {
+                              (0, _debug2.default)('Received upload status from GCS: ' + rangeHeader);
+                              range = rangeHeader.match(/(\d+?)-(\d+?)$/);
+
+                              bytesReceived = parseInt(range[2]) + 1;
+                            }
+
                             return _context4.abrupt('return', Math.floor(bytesReceived / opts.chunkSize));
 
-                          case 11:
+                          case 10:
                           case 'end':
                             return _context4.stop();
                         }
@@ -382,6 +387,9 @@ function checkResponseStatus(res, opts) {
     case 201:
     case 200:
       throw new _errors.FileAlreadyUploadedError(opts.id, opts.url);
+
+    case 400:
+      throw new InvalidContentRangeError(status);
 
     case 404:
       throw new _errors.UrlNotFoundError(opts.url);

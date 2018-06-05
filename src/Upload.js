@@ -135,6 +135,7 @@ export default class Upload {
     }
 
     const getRemoteResumeIndex = async () => {
+      let bytesReceived = 0
       const headers = {
         'Content-Range': `bytes */${opts.file.size}`,
         'Content-Type': opts.contentType
@@ -143,10 +144,13 @@ export default class Upload {
       const res = await safePut(opts.url, null, { headers })
 
       checkResponseStatus(res, opts, [308])
-      const header = res.headers['range']
-      debug(`Received upload status from GCS: ${header}`)
-      const range = header.match(/(\d+?)-(\d+?)$/)
-      const bytesReceived = parseInt(range[2]) + 1
+      const rangeHeader = res.headers['range']
+      if (rangeHeader) {
+        debug(`Received upload status from GCS: ${rangeHeader}`)
+        const range = rangeHeader.match(/(\d+?)-(\d+?)$/)
+        bytesReceived = parseInt(range[2]) + 1
+      }
+
       return Math.floor(bytesReceived / opts.chunkSize)
     }
 
@@ -196,6 +200,9 @@ function checkResponseStatus (res, opts, allowed = []) {
     case 201:
     case 200:
       throw new FileAlreadyUploadedError(opts.id, opts.url)
+
+    case 400:
+      throw new InvalidContentRangeError(status)
 
     case 404:
       throw new UrlNotFoundError(opts.url)

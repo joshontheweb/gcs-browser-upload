@@ -9,6 +9,12 @@ export class DifferentChunkError extends ExtendableError {
   }
 }
 
+export class InvalidContentRangeError extends ExtendableError {
+  constructor (localResumeIndex, remoteResumeIndex) {
+    super(`Local resume index (${localResumeIndex}) is our of sync with the remote resume inxed (${remoteResumeIndex})`)
+  }
+}
+
 export class ResumeIndexesOutOfSyncError extends ExtendableError {
   constructor (localResumeIndex, remoteResumeIndex) {
     super(`Local resume index (${localResumeIndex}) is our of sync with the remote resume inxed (${remoteResumeIndex})`)

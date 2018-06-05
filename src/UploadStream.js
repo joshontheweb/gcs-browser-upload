@@ -188,6 +188,9 @@ function checkResponseStatus (res, opts, allowed = []) {
     case 200:
       throw new FileAlreadyUploadedError(opts.id, opts.url)
 
+    case 400:
+      throw new InvalidContentRangeError(opts.url)
+
     case 404:
       throw new UrlNotFoundError(opts.url)
 

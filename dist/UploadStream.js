@@ -333,6 +333,9 @@ function checkResponseStatus(res, opts) {
     case 200:
       throw new _errors.FileAlreadyUploadedError(opts.id, opts.url);
 
+    case 400:
+      throw new InvalidContentRangeError(opts.url);
+
     case 404:
       throw new _errors.UrlNotFoundError(opts.url);
 
