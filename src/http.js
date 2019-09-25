@@ -25,6 +25,7 @@ export async function safePut () {
     // debug(`'PUT' error response status: ${e.response.status}`)
     // debug(`'PUT' error response headers: ${JSON.stringify(e.response.headers)}`)
     // debug(`'PUT' error response body: ${e.response.data}`)
+    console.error(e)
     return e.response
     // }
   }
